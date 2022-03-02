@@ -33,10 +33,13 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
 
   /////custom marker part
-/*
+  GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(44.83107879082054, 20.433483856048934);
+  List<MapMarker> mapMarkers = [];
   List<Marker> customMarkers  = [];
-  List<TagMap> mapMarkers = [];
-/*
+
+  /*
   Future<Uint8List> getBytesFromAsset(String path) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
@@ -46,7 +49,9 @@ class MapSampleState extends State<MapSample> {
         .buffer
         .asUint8List();
   }
+  */
 
+  /*
   void addTag() async {
 
     Uint8List iconData = await getBytesFromAsset('lib/images/tag.png');
@@ -65,19 +70,22 @@ class MapSampleState extends State<MapSample> {
     });
     
   }
-*/
+
+   */
+
   ////////////////
 
+  /*
   List<Location> locations = [
     Location(LatLng(44.790742120042886, 20.40901182544574), "Football"),
     Location(LatLng(44.875878556519886, 20.451822821921752), "Basketball")
   ];
-
+  */
 
   List<Marker> mapBitmapsToMarkers(List<Uint8List> bitmaps) {
     bitmaps.asMap().forEach((i, bmp) {
       customMarkers.add(Marker(
-        markerId: MarkerId('_kLake'),
+        markerId: MarkerId('$i'),
         position: locations[i].coordinates,
         icon: BitmapDescriptor.fromBytes(bmp),
       ));
@@ -91,14 +99,17 @@ class MapSampleState extends State<MapSample> {
         mapBitmapsToMarkers(bitmaps);
       });
     }).generate(context);
-
-
   }
-*/
-  Completer<GoogleMapController> _controller = Completer();
+
+  //Completer<GoogleMapController> _controller = Completer();
   TextEditingController _searchController = TextEditingController();
   //Location _location = Location();
 
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(44.790742120042886, 20.40901182544574),
+    zoom: 18,
+  );
+  /*
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(44.790742120042886, 20.40901182544574),
     zoom: 18,
@@ -123,11 +134,14 @@ class MapSampleState extends State<MapSample> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       position: LatLng(44.875878556519886, 20.451822821921752)
   );
-
+*/
+  void _onMapCreated(GoogleMapController controller){
+      mapController = controller;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: AppBar(title: Text('SportUp'), centerTitle: true,),
       body: Column(
         children: [
@@ -148,32 +162,34 @@ class MapSampleState extends State<MapSample> {
           ),
           Expanded(
             child: GoogleMap (
-              markers: {_kLakeMarker,_kGooglePlexMarker},
-              mapType: MapType.hybrid,
+              markers: customMarkers.toSet(),//{_kLakeMarker,_kGooglePlexMarker},
+              //mapType: MapType.hybrid,
               initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
+              onMapCreated: _onMapCreated/*(GoogleMapController controller) {
                 _controller.complete(controller);
                 //addTag();
-              },
+              }*/,
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
+        onPressed: (){},
         label: Text('Chat :)'),
         icon: Icon(Icons.chat),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
     );
   }
-/*
+
   List<Widget> markerWidgets() {
-    return locations.map((l) => TagMap(l.name)).toList();
+    return locations.map((l) => MapMarker(l, l.color, l.players)).toList();
   }
-*/
+
+  /*
   Future<void> _goToTheLake() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
+  */
 }
