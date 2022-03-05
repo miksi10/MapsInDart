@@ -87,6 +87,18 @@ class MapSampleState extends State<MapSample> {
       customMarkers.add(Marker(
         markerId: MarkerId('$i'),
         position: locations[i].coordinates,
+        //infoWindow: InfoWindow(title: 'Click for more information'),
+        onTap: (){
+          showDialog(context: context,
+              builder: (context) => AlertDialog(
+                title: Text(locations[i].name),
+                content: Text('You have successfully joined a group of '+ locations[i].players.toString() +' people playing '+ locations[i].name + '.\n\nGet ready to play!'),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
+                ],
+              ));
+          print('Tag is pressed');
+        },
         icon: BitmapDescriptor.fromBytes(bmp),
       ));
     });

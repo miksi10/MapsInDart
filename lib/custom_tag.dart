@@ -57,7 +57,7 @@ class _MapMarkerState extends State<MapMarker> {
             ),
           ),
           Container(
-              height: 45.0,
+              height: 35.0,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border(
