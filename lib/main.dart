@@ -94,10 +94,19 @@ class MapSampleState extends State<MapSample> {
                 title: Text(locations[i].name),
                 content: Text('You have successfully joined a group of '+ locations[i].players.toString() +' people playing '+ locations[i].name + '.\n\nGet ready to play!'),
                 actions: [
-                  TextButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
+                  TextButton(onPressed: (){
+                    setState(() {
+                      locations[i].addPlayer();
+                      customMarkers.clear();
+                      initState();
+                    });
+                    print(i);
+                    print(locations[i].players);
+                    Navigator.pop(context);
+                    }, child: Text('OK'))
                 ],
               ));
-          print('Tag is pressed');
+          print('Tag $i is pressed');
         },
         icon: BitmapDescriptor.fromBytes(bmp),
       ));
@@ -196,6 +205,10 @@ class MapSampleState extends State<MapSample> {
 
   List<Widget> markerWidgets() {
     return locations.map((l) => MapMarker(l, l.color, l.players)).toList();
+  }
+
+  Widget modificateTag(int i){
+    return MapMarker(locations[i], locations[i].color, locations[i].players);
   }
 
   /*
