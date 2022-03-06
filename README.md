@@ -1,16 +1,14 @@
-# maps_flutter
+# Google maps in flutter
 
-A new Flutter project.
+Proof of concept for using google map in SportUp application
 
-## Getting Started
+## Positive
+- Successfully displayed google map on first screen of application
+- Successfully added custom tags with acceptable design
+- Successfully added action od tag press
 
-This project is a starting point for a Flutter application.
+## Negative
+- No solution was found to display images of tagged people
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## To do
+- Create a tag by clicking on google map
