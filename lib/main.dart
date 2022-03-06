@@ -160,6 +160,8 @@ class MapSampleState extends State<MapSample> {
       mapController = controller;
   }
 
+  String help = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,6 +192,33 @@ class MapSampleState extends State<MapSample> {
                 _controller.complete(controller);
                 //addTag();
               }*/,
+                onTap: (loc){
+                  showDialog(context: context, builder: (context) => AlertDialog(
+                    title: Text('Add information'),
+                    content: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Sport name"
+                      ),
+                      autofocus: true,
+                      textAlign: TextAlign.center,
+                      onChanged: (inp){
+                        help = inp;
+                      },
+                    ),
+                    actions: [
+                      TextButton(onPressed: (){
+                        setState(() {
+                          locations.add(Location(LatLng(loc.latitude, loc.longitude), help, Colors.purple, 1));
+                          customMarkers.clear();
+                          initState();
+                        });
+                        print(help);
+                        Navigator.pop(context);
+                      }, child: Text('Add tag'))
+                    ],
+                  ));
+                  print('google map pressed on ' + loc.latitude.toString() + ' ' + loc.longitude.toString());
+                }
             ),
           ),
         ],
