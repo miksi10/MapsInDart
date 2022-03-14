@@ -162,6 +162,40 @@ class MapSampleState extends State<MapSample> {
 
   String help = '';
 
+  int selected_index = 0;
+
+  void _onTapBottomBar(int i)
+  {
+    setState(() {
+      if(i==4){
+        showDialog(context: context, builder: (context) => AlertDialog(
+          title: Text('Adding tag'),
+          content: Text('Everything you need to do is to press on a map at location'
+              ' where you want to tag youself and to add information about your activity '),
+            actions: [
+              TextButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text('OK'))]
+        ));
+      }
+      else if(i>0){
+        showDialog(context: context, builder: (context) => AlertDialog(
+            title: Text('Be patient'),
+            content: Text('This feature will come soon :)'),
+            actions: [
+              TextButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text('OK'))]
+        ));
+      }
+      selected_index = i;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -223,12 +257,46 @@ class MapSampleState extends State<MapSample> {
           ),
         ],
       ),
+      /*
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){},
         label: Text('Chat :)'),
         icon: Icon(Icons.chat),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+      */
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.groups),
+              label: 'Buddies',
+              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+              backgroundColor: Colors.white,
+            ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.manage_accounts_rounded),
+              label: 'Settings',
+              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'Add tag',
+              backgroundColor: Colors.white),
+        ],
+        currentIndex: selected_index,
+        selectedItemColor: Colors.blueGrey,
+        onTap: _onTapBottomBar,
+        unselectedItemColor: Colors.blue,
+        showUnselectedLabels: true,
+        unselectedFontSize: 14.0,
+        selectedFontSize: 16.0,
+      ),
     );
   }
 
