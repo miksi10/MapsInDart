@@ -1,18 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_flutter/location.dart';
 import 'package:maps_flutter/screens/map_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+final _firestore = FirebaseFirestore.instance; //
 
 class LoginScreen extends StatefulWidget {
 
   static const String id = 'login_screen';
+
 
   @override
   _State createState() => _State();
 }
 
 class _State extends State<LoginScreen> {
+
+  void getDataFromTags() async {
+    final tagovi = await _firestore.collection("tags").get();
+    for(var mess in tagovi.docs){
+      print('citanje iz baze ' + mess["sport"]);
+      locations.add(Location(LatLng(mess["latitude"],mess["longitude"]), mess["sport"], Colors.green, mess["number"]));
+    }
+  }
+
+  @override
+  initState(){
+    getDataFromTags();
+  }
+
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 

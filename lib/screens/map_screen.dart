@@ -1,6 +1,7 @@
 
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:maps_flutter/location.dart';
 import 'package:maps_flutter/markergenerator.dart';
 
 User logged;
+//final _firestore = FirebaseFirestore.instance;
+
 
 class MapSample extends StatefulWidget {
 
@@ -106,6 +109,7 @@ class MapSampleState extends State<MapSample> {
 
   @override
   void initState(){
+    //getDataFromTags();
     getCurrentUser();
     MarkerGenerator(markerWidgets(), (bitmaps) {
       setState(() {
@@ -113,6 +117,17 @@ class MapSampleState extends State<MapSample> {
       });
     }).generate(context);
   }
+
+  /*
+  void getDataFromTags() async {
+    final tagovi = await _firestore.collection("tags").get();
+    for(var mess in tagovi.docs){
+      print('citanje iz baze ' + mess["sport"]);
+      locations.add(Location(LatLng(mess["latitude"],mess["longitude"]), mess["sport"], Colors.green, mess["number"]));
+    }
+  }
+  */
+
 
   void getCurrentUser() async {
     if(_auth != null){
@@ -310,6 +325,8 @@ class MapSampleState extends State<MapSample> {
   Widget modificateTag(int i){
     return MapMarker(locations[i], locations[i].color, locations[i].players);
   }
+
+
 
 /*
   Future<void> _goToTheLake() async {

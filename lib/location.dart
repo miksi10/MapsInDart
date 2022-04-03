@@ -15,6 +15,7 @@ class Location {
 
 }
 
+/*
 List<Location> locations = [
   Location(LatLng(44.790742120042886, 20.40901182544574), "Football", Colors.green, 5),
   Location(LatLng(44.875878556519886, 20.451822821921752), "Basketball", Colors.orange, 4),
@@ -22,3 +23,9 @@ List<Location> locations = [
   Location(LatLng(44.790250893684636, 20.40762728792962), "Tennis", Colors.red, 1),
   Location(LatLng(44.78855882366062, 20.406334846421164), "Running", Colors.blue, 2),
 ];
+*/
+
+List<Location> locations = [
+  Location(LatLng(44.790250893684636, 20.40762728792962), "Tennis", Colors.red, 1)
+];
+
