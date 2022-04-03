@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "332564926960",
+    "project_id": "mapsindart",
+    "storage_bucket": "mapsindart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332564926960:android:db8fabd3ea2315e9c6cd35",
+        "android_client_info": {
+          "package_name": "com.company.mapsInDart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332564926960-9je2c0ec2qcgsmjvfs25lnr5ltu1egb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdesV0xqxIJN5CdfB3votE2rEBwd_DYN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332564926960-9je2c0ec2qcgsmjvfs25lnr5ltu1egb7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
