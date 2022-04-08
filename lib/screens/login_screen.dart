@@ -5,13 +5,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_flutter/location.dart';
 import 'package:maps_flutter/screens/map_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:maps_flutter/services/tags.dart';
 
-final _firestore = FirebaseFirestore.instance; //
+
 
 class LoginScreen extends StatefulWidget {
 
   static const String id = 'login_screen';
-
+  static final firestore = FirebaseFirestore.instance; //
 
   @override
   _State createState() => _State();
@@ -19,19 +20,14 @@ class LoginScreen extends StatefulWidget {
 
 class _State extends State<LoginScreen> {
 
-  void getDataFromTags() async {
-    final tagovi = await _firestore.collection("tags").get();
-    for(var mess in tagovi.docs){
-      print('citanje iz baze ' + mess["sport"]);
-      locations.add(Location(LatLng(mess["latitude"],mess["longitude"]), mess["sport"], Colors.green, mess["number"]));
-    }
-  }
-
+/*
   @override
   initState(){
     getDataFromTags();
   }
+*/
 
+  bool isLoading = false;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -44,6 +40,9 @@ class _State extends State<LoginScreen> {
   void clearInput(){
     emailController.clear();
     passController.clear();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -97,6 +96,11 @@ class _State extends State<LoginScreen> {
                         email: email, password: pass);
                     if(user != null){
                       print("znam ko je ovo");
+                      setState(() {
+                        isLoading = true;
+                      });
+                      tag.getDataFromTags();
+                      await Future.delayed(Duration(seconds: 3));
                       Navigator.pushNamed(context, MapSample.id);
                     }
                     else{
@@ -106,14 +110,33 @@ class _State extends State<LoginScreen> {
                   catch(e){
                     print("nzm ko je ovo");
                   }
+                  finally{
+                    clearInput();
+                  }
 
                   //Navigator.pushNamed(context, MapSample.id);
                 },
-                child: Text(
-                    "Login",
-                    style: TextStyle(
-                      color: Colors.black54
-                    ),),
+                child: isLoading ?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.black26,)),
+                    const SizedBox(width: 25.0,),
+                    Text("Wait a second..",
+                      style: TextStyle(
+                        color: Colors.black26,
+                        fontSize: 16.0
+                      ),
+                    )
+                  ],
+                ):
+                Text(
+                  "Login",
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18.0
+                  ),
+                ) ,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.lightGreenAccent)
                 ),
@@ -129,7 +152,8 @@ class _State extends State<LoginScreen> {
               child: Text(
                 "Register",
                 style: TextStyle(
-                    color: Colors.black54
+                    color: Colors.black54,
+                  fontSize: 18.0
                 ),),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.lightGreenAccent)
