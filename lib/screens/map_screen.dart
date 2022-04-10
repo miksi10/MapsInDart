@@ -239,7 +239,29 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(currentUserName), centerTitle: true,),
+      appBar: AppBar(
+        title: Text(currentUserName),
+        centerTitle: true,
+        leading: GestureDetector(
+          child: Icon(Icons.menu),
+          onTap: (){
+            print("Menu button pressed");
+          },
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              child: Icon(Icons.logout),
+              onTap: () async {
+                print("logout button pressed");
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+            ),
+          )
+        ],
+      ),
       body: Column(
         children: [
           Row(

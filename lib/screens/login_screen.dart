@@ -20,12 +20,13 @@ class LoginScreen extends StatefulWidget {
 
 class _State extends State<LoginScreen> {
 
-/*
+
   @override
   initState(){
-    getDataFromTags();
+    clearInput();
+    //getDataFromTags();
   }
-*/
+
 
   bool isLoading = false;
 
@@ -111,7 +112,7 @@ class _State extends State<LoginScreen> {
                     print("nzm ko je ovo");
                   }
                   finally{
-                    clearInput();
+                    //clearInput();
                   }
 
                   //Navigator.pushNamed(context, MapSample.id);
