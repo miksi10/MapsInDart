@@ -16,10 +16,10 @@ class tag{
   }
 
   //function for listening firebase
-
   static void getSnapshotsTags() async{
     int i = 0;
     await for (var snap in LoginScreen.firestore.collection("tags").snapshots()){
+      locations.clear();
       for(var mess in snap.docs){
         print("snapshot citanje: " + mess["sport"] + " " + mess["number"].toString());
         locations.add(Location(LatLng(mess["latitude"],mess["longitude"]), mess["sport"], Colors.green, mess["number"]));
@@ -29,6 +29,15 @@ class tag{
     }
   }
 
+  static void addNewTag(double latitude, double longitude, String sport) async {
+
+    LoginScreen.firestore.collection("tags").add({
+      'latitude': latitude,
+      'longitude': longitude,
+      'number': 1,
+      'sport': sport
+    });
+  }
 
 
 }

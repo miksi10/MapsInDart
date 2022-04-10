@@ -308,11 +308,14 @@ class MapSampleState extends State<MapSample> {
                       },
                     ),
                     actions: [
-                      TextButton(onPressed: (){
+                      TextButton(onPressed: () async {
+                        tag.addNewTag(loc.latitude, loc.longitude, help);
+                        await Future.delayed(Duration(seconds: 1));
                         setState(() {
-                          locations.add(Location(LatLng(loc.latitude, loc.longitude), help, Colors.purple, 1));
-                          customMarkers.clear();//zasto sam ovo stavio?
-                          initState();
+                          //locations.add(Location(LatLng(loc.latitude, loc.longitude), help, Colors.purple, 1));
+                          customMarkers.clear();//
+                          reloadMap();
+                          //initState();
                         });
                         print(help);
                         Navigator.pop(context);
