@@ -10,9 +10,25 @@ class tag{
   static void getDataFromTags() async {
     final tagovi = await LoginScreen.firestore.collection("tags").get();
     for(var mess in tagovi.docs){
-      print('citanje iz baze ' + mess["sport"]);
+      print('regulatno citanje iz baze ' + mess["sport"]);
       locations.add(Location(LatLng(mess["latitude"],mess["longitude"]), mess["sport"], Colors.green, mess["number"]));
     }
   }
+
+  //function for listening firebase
+
+  static void getSnapshotsTags() async{
+    int i = 0;
+    await for (var snap in LoginScreen.firestore.collection("tags").snapshots()){
+      for(var mess in snap.docs){
+        print("snapshot citanje: " + mess["sport"] + " " + mess["number"].toString());
+        locations.add(Location(LatLng(mess["latitude"],mess["longitude"]), mess["sport"], Colors.green, mess["number"]));
+      }
+      i++;
+      print("novi krug citanja: " + i.toString());
+    }
+  }
+
+
 
 }

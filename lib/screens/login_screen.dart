@@ -99,7 +99,7 @@ class _State extends State<LoginScreen> {
                       setState(() {
                         isLoading = true;
                       });
-                      tag.getDataFromTags();
+                      tag.getSnapshotsTags();
                       await Future.delayed(Duration(seconds: 3));
                       Navigator.pushNamed(context, MapSample.id);
                     }
@@ -145,8 +145,10 @@ class _State extends State<LoginScreen> {
               height: 4.0,
             ),
             TextButton(
-              onPressed: (){
+              onPressed: () async{
                 print("register button pressed");
+                //tag.getSnapshotsTags();
+                //await Future.delayed(Duration(seconds: 5));
                 //Navigator.pushNamed(context, MapSample.id);
               },
               child: Text(

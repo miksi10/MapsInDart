@@ -1,5 +1,7 @@
 
 import 'dart:typed_data';
+import 'package:maps_flutter/screens/login_screen.dart';
+import 'package:maps_flutter/services/tags.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +18,8 @@ User logged;
 class MapSample extends StatefulWidget {
 
   static const String id = 'map_screen';
+
+
 
   @override
   State<MapSample> createState() => MapSampleState();
@@ -107,10 +111,19 @@ class MapSampleState extends State<MapSample> {
     });
   }
 
+  // can not be async!
   @override
   void initState(){
-    //getDataFromTags();
+    //tag.getSnapshotsTags();
     getCurrentUser();
+    MarkerGenerator(markerWidgets(), (bitmaps) {
+      setState(() {
+        mapBitmapsToMarkers(bitmaps);
+      });
+    }).generate(context);
+  }
+
+  void reloadMap(){
     MarkerGenerator(markerWidgets(), (bitmaps) {
       setState(() {
         mapBitmapsToMarkers(bitmaps);
@@ -128,6 +141,12 @@ class MapSampleState extends State<MapSample> {
   }
   */
 
+  void wait() async{
+    //tag.getSnapshotsTags();
+    print("waiting started");
+    await Future.delayed(Duration(seconds: 10));
+    print("waiting ended");
+  }
 
   void getCurrentUser() async {
     if(_auth != null){
@@ -136,6 +155,9 @@ class MapSampleState extends State<MapSample> {
         logged = user;
         print(user.email);
         currentUserName = logged.email.split("@")[0].trim();
+      }
+      else{
+        currentUserName = "Not logged";
       }
     }
   }
@@ -232,7 +254,13 @@ class MapSampleState extends State<MapSample> {
                 },
               )),
               IconButton(onPressed: (){}, icon: Icon(Icons.search)),
-              TextButton(onPressed: (){}, child: Text('Filters'))
+              TextButton(onPressed: (){}, child: Text('Filters')),
+              TextButton(onPressed: (){
+                setState(() {
+                  reloadMap();
+                });
+
+              }, child: Text('Refresh'))
             ],
           ),
           Expanded(
@@ -261,7 +289,7 @@ class MapSampleState extends State<MapSample> {
                       TextButton(onPressed: (){
                         setState(() {
                           locations.add(Location(LatLng(loc.latitude, loc.longitude), help, Colors.purple, 1));
-                          customMarkers.clear();
+                          customMarkers.clear();//zasto sam ovo stavio?
                           initState();
                         });
                         print(help);
@@ -275,14 +303,17 @@ class MapSampleState extends State<MapSample> {
           ),
         ],
       ),
-      /*
+
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){},
-        label: Text('Chat :)'),
-        icon: Icon(Icons.chat),
+        onPressed: (){
+          setState(() {
+            reloadMap();
+          });
+        },
+        label: Text('Refresh'),
+        icon: Icon(Icons.refresh),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
-      */
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
